@@ -22,8 +22,10 @@ export const makeSelecTopics = () =>
  * Default selector used by NavigationContainer
  */
 
-export const makeSelectNavigationContainer = () =>
+const makeSelectNavigationContainer = () =>
   createSelector(
     selectNavigationContainerDomain,
     substate => substate,
   );
+
+export default makeSelectNavigationContainer;

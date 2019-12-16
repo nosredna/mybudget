@@ -6,18 +6,26 @@
 
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
-// import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
+import AppBar from '../AppBar';
+import Drawer from '../Drawer';
 
-function Navigation({ topics, selectTopic }) {
-  const topicNodes = topics.map(t => (
-    <div key={t.name} onClick={() => selectTopic(t)}>
-      {t.name}
-    </div>
-  ));
-  return <div>{topicNodes}</div>;
+const StyledNavigation = styled.div``;
+
+function Navigation({ topics, selectTopic, toggleDrawer, isDrawerOpen }) {
+  return (
+    <StyledNavigation>
+      <AppBar toggleDrawer={toggleDrawer} />
+      <Drawer
+        items={topics}
+        selectItem={selectTopic}
+        itemLabelAttr="name"
+        itemKeyAttr="name"
+        isDrawerOpen={isDrawerOpen}
+      />
+    </StyledNavigation>
+  );
 }
 
 Navigation.propTypes = {
@@ -28,6 +36,8 @@ Navigation.propTypes = {
     }),
   ).isRequired,
   selectTopic: PropTypes.func.isRequired,
+  toggleDrawer: PropTypes.func.isRequired,
+  isDrawerOpen: PropTypes.bool.isRequired,
 };
 
 export default memo(Navigation);
