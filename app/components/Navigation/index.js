@@ -13,10 +13,16 @@ import Drawer from '../Drawer';
 
 const StyledNavigation = styled.div``;
 
-function Navigation({ topics, selectTopic, toggleDrawer, isDrawerOpen }) {
+function Navigation({
+  topics,
+  selectTopic,
+  toggleDrawer,
+  isDrawerOpen,
+  email,
+}) {
   return (
     <StyledNavigation>
-      <AppBar toggleDrawer={toggleDrawer} />
+      <AppBar toggleDrawer={toggleDrawer} email={email} />
       <Drawer
         items={topics}
         selectItem={selectTopic}
@@ -29,6 +35,7 @@ function Navigation({ topics, selectTopic, toggleDrawer, isDrawerOpen }) {
 }
 
 Navigation.propTypes = {
+  email: PropTypes.string,
   topics: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,

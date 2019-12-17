@@ -13,6 +13,8 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import LinkList from 'components/LinkList';
+import { Route } from 'react-router-dom';
+import LinkFormContainer from 'containers/LinkFormContainer/Loadable';
 import makeSelectLinkListContainer, {
   makeSelectLinks,
   selectRouteTopic,
@@ -28,7 +30,12 @@ export function LinkListContainer(props) {
   useEffect(() => {
     props.requestLinks(props.topicName);
   }, [props.topicName]);
-  return <LinkList {...props} />;
+  return (
+    <>
+      <LinkList {...props} />
+      <Route path="/topics/:topicName/add" component={LinkFormContainer} />
+    </>
+  );
 }
 
 LinkListContainer.propTypes = {

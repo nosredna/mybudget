@@ -1,4 +1,6 @@
 import { createSelector } from 'reselect';
+import makeSelectLoginContainer from 'containers/LoginContainer/selectors';
+import produce from 'immer';
 import { initialState } from './reducer';
 
 /**
@@ -22,10 +24,16 @@ export const makeSelecTopics = () =>
  * Default selector used by NavigationContainer
  */
 
+/* eslint-disable default-case, no-param-reassign */
 const makeSelectNavigationContainer = () =>
   createSelector(
     selectNavigationContainerDomain,
-    substate => substate,
+    makeSelectLoginContainer(),
+    (substate, loginState) =>
+      produce(substate, draft => {
+        console.log(loginState);
+        Object.assign(draft, loginState);
+      }),
   );
 
 export default makeSelectNavigationContainer;

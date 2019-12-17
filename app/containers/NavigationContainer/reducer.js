@@ -22,6 +22,9 @@ const navigationContainerReducer = (state = initialState, action) =>
       case REQUEST_TOPICS_SUCCEEDED:
         draft.topics = action.topics;
         break;
+      case '@@router/LOCATION_CHANGE':
+        draft.routerLocation = action.payload.location.pathname;
+        break;
       case SELECT_TOPIC:
         draft.selectedTopic = action.topic;
         draft.isDrawerOpen = false;

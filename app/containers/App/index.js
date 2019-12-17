@@ -14,6 +14,7 @@ import HomePage from 'containers/HomePage/Loadable';
 import NavigationContainer from 'containers/NavigationContainer/Loadable';
 import LinkListContainer from 'containers/LinkListContainer/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import LoginContainer from 'containers/LoginContainer/Loadable';
 
 import styled from 'styled-components';
 import GlobalStyle from '../../global-styles';
@@ -30,6 +31,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/topics/:topicName" component={LinkListContainer} />
+        <Route path="/login" component={LoginContainer} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
