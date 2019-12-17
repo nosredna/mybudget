@@ -6,14 +6,13 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import NavigationContainer from 'containers/NavigationContainer';
-import LinkListContainer from 'containers/LinkListContainer/Loadable';
 
-export default function HomePage() {
-  return (
-    <>
-      <NavigationContainer />
-      <LinkListContainer />
-    </>
-  );
+export default function HomePage({ children }) {
+  return <>{children}</>;
 }
+
+HomePage.propTypes = {
+  children: PropTypes.element,
+};

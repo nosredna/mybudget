@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -13,28 +13,40 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import LinkList from 'components/LinkList';
-import { makeSelectLinks } from './selectors';
+import makeSelectLinkListContainer, {
+  makeSelectLinks,
+  selectRouteTopic,
+  makeSelectTopic,
+} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import { requestLinks } from './actions';
 
 export function LinkListContainer(props) {
   useInjectReducer({ key: 'linkListContainer', reducer });
   useInjectSaga({ key: 'linkListContainer', saga });
-
+  useEffect(() => {
+    props.requestLinks(props.topicName);
+  }, [props.topicName]);
   return <LinkList {...props} />;
 }
 
 LinkListContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  requestLinks: PropTypes.func.isRequired,
+  topicName: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  links: makeSelectLinks(),
-});
+// const mapStateToProps = createStructuredSelector({
+//   links: makeSelectLinks(),
+//   routeTopicName: selectRouteTopic,
+//   routeTopic: makeSelectTopic,
+// });
+
+const mapStateToProps = makeSelectLinkListContainer();
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    requestLinks: topicName => dispatch(requestLinks(topicName)),
   };
 }
 

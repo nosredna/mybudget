@@ -11,7 +11,7 @@ import styled from 'styled-components';
 const DrawerDiv = styled.div`
   position: fixed;
   top: 0;
-  left: -300px;
+  left: ${({ open }) => (open ? '0' : '-300px')};
   height: 100%;
   width: 300px;
   background: #fff;
@@ -19,11 +19,6 @@ const DrawerDiv = styled.div`
   transition: all 0.25s ease-in-out;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px, rgba(0, 0, 0, 0.22) 0px 3px 10px;
   z-index: 1000;
-
-  &.open {
-    left: 0;
-    transition: all 0.25s ease-in-out;
-  }
 `;
 
 const Item = styled.div`
@@ -49,7 +44,7 @@ function Drawer({
     </Item>
   ));
   return (
-    <DrawerDiv key="one" className={isDrawerOpen ? 'open' : ''}>
+    <DrawerDiv key="one" open={isDrawerOpen}>
       {itemNodes}
     </DrawerDiv>
   );
