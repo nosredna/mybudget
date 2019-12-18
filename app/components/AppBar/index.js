@@ -7,8 +7,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import FontAwesome from 'react-fontawesome';
 import { Link } from 'react-router-dom';
+import IconButton from 'components/IconButton';
+import getIcon from 'components/IconButton/getIcon';
 
 const AppBarDiv = styled.div`
   width: 100%;
@@ -20,11 +21,10 @@ const AppBarDiv = styled.div`
   justify-content: space-between;
 `;
 
-const IconButton = styled.div`
-  cursor: pointer;
+const StyledIconButton = styled(IconButton)`
   margin-right: 15px;
 `;
-const BarsIcon = styled(FontAwesome)`
+const StyledIcon = styled(getIcon('Bars'))`
   font-size: 20px;
   color: #fff;
   &:hover {
@@ -46,9 +46,7 @@ function AppBar({ toggleDrawer, email }) {
 
   return (
     <AppBarDiv>
-      <IconButton onClick={toggleDrawer}>
-        <BarsIcon name="bars" />
-      </IconButton>
+      <StyledIconButton icon={StyledIcon} onClick={toggleDrawer} />
       <Heading>Coder Daily</Heading>
       <LinkContainer>{loginLink}</LinkContainer>
     </AppBarDiv>

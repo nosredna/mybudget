@@ -42,7 +42,7 @@ function TextInput({ errorText, placeholder, onInputChange, className }) {
 
   const handleChange = e => {
     setValue(e.target.value);
-    if (onInputChange) onInputChange(value);
+    if (onInputChange) onInputChange(e.target.value);
   };
 
   return (

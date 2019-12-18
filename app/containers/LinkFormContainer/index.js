@@ -16,6 +16,7 @@ import LinkForm from 'components/LinkForm';
 import makeSelectLinkFormContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import { requestAddLink, cancelAddLink } from './actions';
 
 export function LinkFormContainer(props) {
   useInjectReducer({ key: 'linkFormContainer', reducer });
@@ -25,7 +26,8 @@ export function LinkFormContainer(props) {
 }
 
 LinkFormContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  requestAddLink: PropTypes.func.isRequired,
+  cancelAddLink: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -34,7 +36,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    requestAddLink: link => dispatch(requestAddLink(link)),
+    cancelAddLink: () => dispatch(cancelAddLink()),
   };
 }
 

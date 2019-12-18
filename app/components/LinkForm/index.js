@@ -62,10 +62,18 @@ const StyledTextInput = styled(TextInput)`
   margin-bottom: 10px;
 `;
 
-function LinkForm() {
+function LinkForm({ topicName, requestAddLink, cancelAddLink }) {
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
-  const [errorText, setErrorText] = useState(null);
+  // const [errorText, setErrorText] = useState(null);
+  const handleAddLink = () => {
+    const link = {
+      url,
+      description,
+      topicName,
+    };
+    requestAddLink(link);
+  };
   return (
     <Overlay>
       <StyledLinkForm>
@@ -79,14 +87,18 @@ function LinkForm() {
           onInputChange={value => setDescription(value)}
         />
         <ActionContainer>
-          <Button>cancel</Button>
-          <Button>log in</Button>
+          <Button onClick={cancelAddLink}>cancel</Button>
+          <Button onClick={handleAddLink}>add</Button>
         </ActionContainer>
       </StyledLinkForm>
     </Overlay>
   );
 }
 
-LinkForm.propTypes = {};
+LinkForm.propTypes = {
+  topicName: PropTypes.string.isRequired,
+  requestAddLink: PropTypes.func.isRequired,
+  cancelAddLink: PropTypes.func.isRequired,
+};
 
 export default LinkForm;

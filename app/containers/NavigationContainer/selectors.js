@@ -31,7 +31,6 @@ const makeSelectNavigationContainer = () =>
     makeSelectLoginContainer(),
     (substate, loginState) =>
       produce(substate, draft => {
-        console.log(loginState);
         Object.assign(draft, loginState);
       }),
   );

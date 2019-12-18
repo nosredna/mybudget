@@ -4,10 +4,17 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { REQUEST_ADD_LINK, CANCEL_ADD_LINK } from './constants';
 
-export function defaultAction() {
+export function requestAddLink(link) {
   return {
-    type: DEFAULT_ACTION,
+    type: REQUEST_ADD_LINK,
+    link,
+  };
+}
+
+export function cancelAddLink() {
+  return {
+    type: CANCEL_ADD_LINK,
   };
 }
