@@ -7,20 +7,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
-// import { useInjectReducer } from 'utils/injectReducer';
 import Navigation from 'components/Navigation';
-// import { select } from 'redux-saga/effects';
-import makeSelectNavigationContainer, { makeSelecTopics } from './selectors';
-// import reducer from './reducer';
+import makeSelectNavigationContainer from './selectors';
 import saga from './saga';
 import { requestTopics, selectTopic, toggleDrawer } from './actions';
 
 export function NavigationContainer(props) {
-  // useInjectReducer({ key: 'navigationContainer', reducer });
   useInjectSaga({ key: 'navigation', saga });
 
   useEffect(() => {

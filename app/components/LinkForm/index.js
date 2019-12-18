@@ -62,17 +62,40 @@ const StyledTextInput = styled(TextInput)`
   margin-bottom: 10px;
 `;
 
-function LinkForm({ topicName, requestAddLink, cancelAddLink }) {
+function LinkForm({ topicName, addLink, addLinkCanceled }) {
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   // const [errorText, setErrorText] = useState(null);
-  const handleAddLink = () => {
+  const [urlError, setUrlError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
+  const onAdd = () => {
+    let tempUrlError;
+    let tempDescriptionError;
+    if (
+      !url.match(
+        /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/, // eslint-disable-line no-useless-escape
+      )
+    ) {
+      tempUrlError = 'Please provide a valid URL';
+    }
+
+    if (!description) {
+      tempDescriptionError = 'Please provide a valid description';
+    }
+
+    setUrlError(tempUrlError);
+    setDescriptionError(tempDescriptionError);
+
+    if (tempUrlError || tempDescriptionError) {
+      return;
+    }
+
     const link = {
       url,
       description,
       topicName,
     };
-    requestAddLink(link);
+    addLink(link);
   };
   return (
     <Overlay>
@@ -81,14 +104,16 @@ function LinkForm({ topicName, requestAddLink, cancelAddLink }) {
         <StyledTextInput
           placeholder="URL"
           onInputChange={value => setUrl(value)}
+          errorText={urlError}
         />
         <StyledTextInput
           placeholder="Description"
           onInputChange={value => setDescription(value)}
+          errorText={descriptionError}
         />
         <ActionContainer>
-          <Button onClick={cancelAddLink}>cancel</Button>
-          <Button onClick={handleAddLink}>add</Button>
+          <Button onClick={addLinkCanceled}>cancel</Button>
+          <Button onClick={onAdd}>add</Button>
         </ActionContainer>
       </StyledLinkForm>
     </Overlay>
@@ -97,8 +122,8 @@ function LinkForm({ topicName, requestAddLink, cancelAddLink }) {
 
 LinkForm.propTypes = {
   topicName: PropTypes.string.isRequired,
-  requestAddLink: PropTypes.func.isRequired,
-  cancelAddLink: PropTypes.func.isRequired,
+  addLink: PropTypes.func.isRequired,
+  addLinkCanceled: PropTypes.func.isRequired,
 };
 
 export default LinkForm;

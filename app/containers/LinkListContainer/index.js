@@ -17,7 +17,7 @@ import LinkFormContainer from 'containers/LinkFormContainer/Loadable';
 import makeSelectLinkListContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { requestLinks, goAddLink } from './actions';
+import { requestLinks, startAdd } from './actions';
 
 export function LinkListContainer(props) {
   useInjectReducer({ key: 'linkListContainer', reducer });
@@ -48,7 +48,7 @@ const mapStateToProps = makeSelectLinkListContainer();
 function mapDispatchToProps(dispatch) {
   return {
     requestLinks: topicName => dispatch(requestLinks(topicName)),
-    goAddLink: topicName => dispatch(goAddLink(topicName)),
+    startAdd: topicName => dispatch(startAdd(topicName)),
   };
 }
 

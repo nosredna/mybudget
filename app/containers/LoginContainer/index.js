@@ -29,7 +29,9 @@ export function LoginContainer(props) {
   );
 }
 
-LoginContainer.propTypes = {};
+LoginContainer.propTypes = {
+  cancelLogin: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = createStructuredSelector({
   loginContainer: makeSelectLoginContainer(),

@@ -8,7 +8,7 @@ import {
   REQUEST_LINKS_FAILED,
   REQUEST_LINKS_SUCCEEDED,
   REQUEST_LINKS,
-  GO_ADD_LINK,
+  START_ADD,
 } from './constants';
 
 export function requestLinks(topicName) {
@@ -32,9 +32,9 @@ export function requestLinksFailed(message) {
   };
 }
 
-export function goAddLink(topicName) {
+export function startAdd(topicName) {
   return {
-    type: GO_ADD_LINK,
+    type: START_ADD,
     topicName,
   };
 }

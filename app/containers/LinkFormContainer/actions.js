@@ -4,17 +4,37 @@
  *
  */
 
-import { REQUEST_ADD_LINK, CANCEL_ADD_LINK } from './constants';
+import {
+  ADD_LINK,
+  ADD_LINK_FAILED,
+  ADD_LINK_SUCCEEDED,
+  ADD_LINK_CANCELLED,
+} from './constants';
 
-export function requestAddLink(link) {
+export function addLink(link) {
   return {
-    type: REQUEST_ADD_LINK,
+    type: ADD_LINK,
     link,
   };
 }
 
-export function cancelAddLink() {
+export function addLinkSucceeded(link) {
   return {
-    type: CANCEL_ADD_LINK,
+    type: ADD_LINK_SUCCEEDED,
+    link,
+  };
+}
+
+export function addLinkFailed(link, message) {
+  return {
+    type: ADD_LINK_FAILED,
+    link,
+    message,
+  };
+}
+
+export function addLinkCanceled() {
+  return {
+    type: ADD_LINK_CANCELLED,
   };
 }

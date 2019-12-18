@@ -4,7 +4,8 @@
  *
  */
 import produce from 'immer';
-import { REQUEST_LINKS_SUCCEEDED, REQUEST_LINKS_FAILED } from './constants';
+import { ADD_LINK_SUCCEEDED } from 'containers/LinkFormContainer/constants';
+import { REQUEST_LINKS_SUCCEEDED } from './constants';
 
 export const initialState = {
   links: [],
@@ -16,6 +17,9 @@ const linkListContainerReducer = (state = initialState, action) =>
     switch (action.type) {
       case REQUEST_LINKS_SUCCEEDED:
         draft.links = action.links;
+        break;
+      case ADD_LINK_SUCCEEDED:
+        draft.links.push(action.link);
         break;
     }
   });

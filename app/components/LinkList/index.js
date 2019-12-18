@@ -35,22 +35,19 @@ const StyledIcon = styled(getIcon('Plus'))`
   color: #fff;
 `;
 
-function LinkList({ links, topicName, goAddLink }) {
+function LinkList({ links, topicName, startAdd }) {
   const linkNodes = links.map(l => <Link key={l.id} link={l} />); // eslint-disable-line jsx-a11y/anchor-is-valid
   return (
     <StyledLinkList>
       <h1>{topicName}</h1>
       {linkNodes}
-      <StyledIconButton
-        icon={StyledIcon}
-        onClick={() => goAddLink(topicName)}
-      />
+      <StyledIconButton icon={StyledIcon} onClick={() => startAdd(topicName)} />
     </StyledLinkList>
   );
 }
 
 LinkList.propTypes = {
-  goAddLink: PropTypes.func.isRequired,
+  startAdd: PropTypes.func.isRequired,
   topicName: PropTypes.string.isRequired,
   links: PropTypes.arrayOf(
     PropTypes.shape({

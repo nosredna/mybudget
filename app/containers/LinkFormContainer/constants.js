@@ -4,5 +4,7 @@
  *
  */
 
-export const REQUEST_ADD_LINK = 'app/LinkFormContainer/REQUEST_ADD_LINK';
-export const CANCEL_ADD_LINK = 'app/LinkFormContainer/CANCEL_ADD_LINK';
+export const ADD_LINK = 'app/LinkFormContainer/ADD_LINK';
+export const ADD_LINK_SUCCEEDED = 'app/LinkFormContainer/ADD_LINK_SUCCEEDED';
+export const ADD_LINK_FAILED = 'app/LinkFormContainer/ADD_LINK_FAILED';
+export const ADD_LINK_CANCELLED = 'app/LinkFormContainer/ADD_LINK_CANCELLED';
