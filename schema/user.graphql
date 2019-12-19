@@ -1,0 +1,21 @@
+type User {
+  authId: String!
+  email: String!
+  emailVerified: Boolean!
+  name: String!
+  firstName: String!
+  lastName: String
+}
+
+input UpdatedUserInput {
+  firstName: String!
+  lastName: String
+}
+
+extend type Query {
+  getMe: User! @auth
+}
+
+extend type Mutation {
+  updateMe(input: UpdatedUserInput!): User! @auth
+}

@@ -1,0 +1,18 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+directive @formattableDate(format: String) on FIELD
+directive @auth on FIELD_DEFINITION
+directive @toUpper on FIELD_DEFINITION
+
+type Query {
+  serverTime: Date!
+}
+
+type Mutation {
+  _empty: String
+}
+
+scalar Date
