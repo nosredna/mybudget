@@ -1,42 +1,43 @@
-/* eslint consistent-return:0 import/order:0 */
+import http from 'http';
+import app from './server';
+import argv from './argv';
+import port from './port';
+import logger from './logger';
+import webpackConfig from '../internals/webpack/webpack.dev.babel';
+import {
+  generateWebpackMiddleware,
+  attachWebpack,
+} from './middlewares/addDevMiddlewares';
 
-const express = require('express');
-const logger = require('./logger');
+function applyWebpackMiddleware(newApp, middleware) {
+  attachWebpack(newApp, middleware);
 
-const argv = require('./argv');
-const port = require('./port');
-const setup = require('./middlewares/frontendMiddleware');
-const setupApi = require('./middlewares/api');
+  // use the gzipped bundle
+  newApp.get('*.js', (req, res, next) => {
+    req.url = req.url + '.gz'; // eslint-disable-line
+    res.set('Content-Encoding', 'gzip');
+    next();
+  });
+}
+
 const isDev = process.env.NODE_ENV !== 'production';
 const ngrok =
   (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
     ? require('ngrok')
     : false;
-const { resolve } = require('path');
-const app = express();
 
-setupApi(app);
+const server = http.createServer(app);
+let currentApp = app;
 
-// In production we need to pass these values in instead of relying on webpack
-setup(app, {
-  outputPath: resolve(process.cwd(), 'build'),
-  publicPath: '/',
-});
+const webpackMiddleware = generateWebpackMiddleware(webpackConfig);
+applyWebpackMiddleware(app, webpackMiddleware);
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || 'localhost';
 
-// use the gzipped bundle
-app.get('*.js', (req, res, next) => {
-  req.url = req.url + '.gz'; // eslint-disable-line
-  res.set('Content-Encoding', 'gzip');
-  next();
-});
-
-// Start your app.
-app.listen(port, host, async err => {
+server.listen(port, host, async err => {
   if (err) {
     return logger.error(err.message);
   }
@@ -49,8 +50,16 @@ app.listen(port, host, async err => {
     } catch (e) {
       return logger.error(e);
     }
-    logger.appStarted(port, prettyHost, url);
-  } else {
-    logger.appStarted(port, prettyHost);
+    return logger.appStarted(port, prettyHost, url);
   }
+  return logger.appStarted(port, prettyHost);
 });
+
+if (module.hot) {
+  module.hot.accept(['./server'], () => {
+    server.removeListener('request', currentApp);
+    applyWebpackMiddleware(app, webpackMiddleware);
+    server.on('request', app);
+    currentApp = app;
+  });
+}

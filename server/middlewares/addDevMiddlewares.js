@@ -1,30 +1,38 @@
-const path = require('path');
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
+import path from 'path';
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
 function createWebpackMiddleware(compiler, publicPath) {
   return webpackDevMiddleware(compiler, {
-    logLevel: 'warn',
+    logLevel: 'debug',
     publicPath,
     silent: true,
-    stats: 'errors-only',
+    stats: {
+      colors: true,
+    },
   });
 }
 
-module.exports = function addDevMiddlewares(app, webpackConfig) {
+export function generateWebpackMiddleware(webpackConfig) {
   const compiler = webpack(webpackConfig);
-  const middleware = createWebpackMiddleware(
+  const devMiddleware = createWebpackMiddleware(
     compiler,
     webpackConfig.output.publicPath,
   );
 
-  app.use(middleware);
-  app.use(webpackHotMiddleware(compiler));
+  const hotMiddleware = webpackHotMiddleware(compiler);
+
+  return { compiler, devMiddleware, hotMiddleware };
+}
+
+export function attachWebpack(app, { compiler, devMiddleware, hotMiddleware }) {
+  app.use(devMiddleware);
+  app.use(hotMiddleware);
 
   // Since webpackDevMiddleware uses memory-fs internally to store build
   // artifacts, we use it instead
-  const fs = middleware.fileSystem;
+  const fs = devMiddleware.fileSystem;
 
   app.get('*', (req, res) => {
     fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
@@ -35,4 +43,4 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
       }
     });
   });
-};
+}
