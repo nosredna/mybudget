@@ -7,7 +7,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import NavigationContainer from 'containers/NavigationContainer';
 
 export default function HomePage({ children }) {
   return <>{children}</>;
