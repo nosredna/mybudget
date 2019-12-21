@@ -9,7 +9,7 @@ import createReducer from './reducers';
 
 export default function configureStore(initialState = {}, history) {
   let composeEnhancers = compose;
-  const reduxSagaMonitorOptions = {};
+  let reduxSagaMonitorOptions = {};
 
   // If Redux Dev Tools and Saga Dev Tools Extensions are installed, enable them
   /* istanbul ignore next */
@@ -20,10 +20,10 @@ export default function configureStore(initialState = {}, history) {
 
     // NOTE: Uncomment the code below to restore support for Redux Saga
     // Dev Tools once it supports redux-saga version 1.x.x
-    // if (window.__SAGA_MONITOR_EXTENSION__)
-    //   reduxSagaMonitorOptions = {
-    //     sagaMonitor: window.__SAGA_MONITOR_EXTENSION__,
-    //   };
+    if (window.__SAGA_MONITOR_EXTENSION__)
+      reduxSagaMonitorOptions = {
+        sagaMonitor: window.__SAGA_MONITOR_EXTENSION__,
+      };
     /* eslint-enable */
   }
 
