@@ -7,19 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-const DrawerDiv = styled.div`
-  position: fixed;
-  top: 0;
-  left: ${({ open }) => (open ? '0' : '-300px')};
-  height: 100%;
-  width: 300px;
-  background: #fff;
-  padding: 0px;
-  transition: all 0.25s ease-in-out;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px, rgba(0, 0, 0, 0.22) 0px 3px 10px;
-  z-index: 1000;
-`;
+import { Drawer as BPDrawer, Position, Classes } from '@blueprintjs/core';
 
 const Item = styled.div`
   padding: 25px;
@@ -37,16 +25,25 @@ function Drawer({
   itemLabelAttr,
   itemKeyAttr,
   isDrawerOpen,
+  handleClose,
 }) {
+  const drawerSettings = {
+    position: Position.RIGHT,
+    canOutsideClickClose: true,
+    canEscapeKeyClose: true,
+    autoFocus: true,
+    enforceFocus: true,
+    size: '300px',
+  };
   const itemNodes = items.map(item => (
     <Item key={item[itemKeyAttr]} onClick={() => selectItem(item)}>
       {item[itemLabelAttr]}
     </Item>
   ));
   return (
-    <DrawerDiv key="one" open={isDrawerOpen}>
-      {itemNodes}
-    </DrawerDiv>
+    <BPDrawer isOpen={isDrawerOpen} onClose={handleClose} {...drawerSettings}>
+      <div className={Classes.DRAWER_BODY}>{itemNodes}</div>
+    </BPDrawer>
   );
 }
 
@@ -56,6 +53,7 @@ Drawer.propTypes = {
   itemLabelAttr: PropTypes.string.isRequired,
   itemKeyAttr: PropTypes.string.isRequired,
   isDrawerOpen: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default Drawer;

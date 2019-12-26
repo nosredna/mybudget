@@ -8,6 +8,7 @@ import {
   REQUEST_TOPICS_SUCCEEDED,
   SELECT_TOPIC,
   TOGGLE_DRAWER,
+  CLOSE_DRAWER,
 } from './constants';
 
 export const initialState = {
@@ -31,6 +32,9 @@ const navigationContainerReducer = (state = initialState, action) =>
         break;
       case TOGGLE_DRAWER:
         draft.isDrawerOpen = !draft.isDrawerOpen;
+        break;
+      case CLOSE_DRAWER:
+        draft.isDrawerOpen = false;
         break;
     }
   });

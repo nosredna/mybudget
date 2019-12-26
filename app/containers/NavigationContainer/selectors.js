@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import makeSelectLoginContainer from 'containers/LoginContainer/selectors';
+import { selectAuthUserProfile } from 'containers/Authentication/selectors';
 import produce from 'immer';
 import { initialState } from './reducer';
 
@@ -28,10 +28,10 @@ export const makeSelecTopics = () =>
 const makeSelectNavigationContainer = () =>
   createSelector(
     selectNavigationContainerDomain,
-    makeSelectLoginContainer(),
-    (substate, loginState) =>
+    selectAuthUserProfile,
+    (substate, userProfile) =>
       produce(substate, draft => {
-        Object.assign(draft, loginState);
+        draft.email = userProfile ? userProfile.email : null;
       }),
   );
 

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -17,18 +17,29 @@ function Navigation({
   topics,
   selectTopic,
   toggleDrawer,
+  closeDrawer,
   isDrawerOpen,
   email,
+  requestLogin,
+  requestLogout,
+  routerPush,
 }) {
   return (
     <StyledNavigation>
-      <AppBar toggleDrawer={toggleDrawer} email={email} />
+      <AppBar
+        toggleDrawer={toggleDrawer}
+        email={email}
+        requestLogin={requestLogin}
+        requestLogout={requestLogout}
+        routerPush={routerPush}
+      />
       <Drawer
         items={topics}
         selectItem={selectTopic}
         itemLabelAttr="name"
         itemKeyAttr="name"
         isDrawerOpen={isDrawerOpen}
+        handleClose={closeDrawer}
       />
     </StyledNavigation>
   );
@@ -44,7 +55,11 @@ Navigation.propTypes = {
   ).isRequired,
   selectTopic: PropTypes.func.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
+  closeDrawer: PropTypes.func.isRequired,
   isDrawerOpen: PropTypes.bool.isRequired,
+  requestLogin: PropTypes.func.isRequired,
+  requestLogout: PropTypes.func.isRequired,
+  routerPush: PropTypes.func.isRequired,
 };
 
-export default memo(Navigation);
+export default Navigation;

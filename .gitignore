@@ -5,6 +5,7 @@ node_modules
 stats.json
 db.json
 .vscode/
+.env
 
 # Cruft
 .DS_Store

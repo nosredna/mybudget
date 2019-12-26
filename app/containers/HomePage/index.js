@@ -6,12 +6,9 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export default function HomePage({ children }) {
-  return <>{children}</>;
+export default function HomePage() {
+  return <h1>Home Page</h1>;
 }
 
-HomePage.propTypes = {
-  children: PropTypes.element,
-};
+HomePage.propTypes = {};

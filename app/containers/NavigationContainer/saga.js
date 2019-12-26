@@ -1,4 +1,4 @@
-import { takeLatest, call, put, all, select } from 'redux-saga/effects';
+import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import {
   REQUEST_TOPICS,
@@ -6,7 +6,6 @@ import {
   REQUEST_TOPICS_SUCCEEDED,
 } from './constants';
 import { requestTopicsFailed, requestTopicsSucceeded } from './actions';
-import makeSelectNavigationContainer from './selectors';
 
 function fetchTopicsFromServer() {
   return fetch('http://localhost:3000/api/topics').then(response =>
@@ -28,10 +27,10 @@ function* pushTopic(action) {
 }
 
 function* selectDefaultTopic() {
-  const state = yield select(makeSelectNavigationContainer());
-  if (!state.selectedTopic && state.routerLocation === '/') {
-    yield put(push(`/topics/${state.topics[0].name}`));
-  }
+  // const state = yield select(makeSelectNavigationContainer());
+  // if (!state.selectedTopic && state.routerLocation === '/') {
+  //   yield put(push(`/topics/${state.topics[0].name}`));
+  // }
 }
 
 // Individual exports for testing

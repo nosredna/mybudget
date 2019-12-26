@@ -10,6 +10,7 @@ import {
   REQUEST_TOPICS_SUCCEEDED,
   SELECT_TOPIC,
   TOGGLE_DRAWER,
+  CLOSE_DRAWER,
 } from './constants';
 
 export function requestTopics() {
@@ -42,5 +43,11 @@ export function selectTopic(topic) {
 export function toggleDrawer() {
   return {
     type: TOGGLE_DRAWER,
+  };
+}
+
+export function closeDrawer() {
+  return {
+    type: CLOSE_DRAWER,
   };
 }

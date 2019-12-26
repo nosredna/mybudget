@@ -7,55 +7,81 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import IconButton from 'components/IconButton';
-import getIcon from 'components/IconButton/getIcon';
+import {
+  Navbar,
+  Button,
+  Alignment,
+  Popover,
+  Menu,
+  Position,
+} from '@blueprintjs/core';
 
-const AppBarDiv = styled.div`
-  width: 100%;
-  padding: 20px;
-  background-color: #00afcc;
-  color: #fff;
-  font-size: 24px;
-  display: flex;
-  justify-content: space-between;
-`;
+const StyledAppBar = styled.div``;
 
-const StyledIconButton = styled(IconButton)`
-  margin-right: 15px;
-`;
-const StyledIcon = styled(getIcon('Bars'))`
-  font-size: 20px;
-  color: #fff;
-  &:hover {
-    color: #e5e5e5;
-  }
-`;
-const Heading = styled.div`
-  text-align: left;
-  display: flex;
-  flex-grow: 2;
-`;
-const LinkContainer = styled.div`
-  font-size: 16px;
-  margin-top: 6px;
-`;
-
-function AppBar({ toggleDrawer, email }) {
-  const loginLink = email || <Link to="/login">Log in</Link>;
+function AppBar({
+  toggleDrawer,
+  email,
+  requestLogin,
+  requestLogout,
+  routerPush,
+}) {
+  const goto = path => {
+    routerPush(path);
+  };
+  const userMenu = email ? (
+    <Menu>
+      <li className="bp3-menu-header">
+        <h6 className="bp3-heading">{email}</h6>
+      </li>
+      <Menu.Item
+        text="Profile"
+        icon="profile"
+        onClick={() => goto('/user/profile')}
+      />
+      <Menu.Item text="Settings" icon="cog" />
+      <Menu.Item text="Logout" icon="power" onClick={() => requestLogout()} />
+    </Menu>
+  ) : (
+    <Menu>
+      <Menu.Item
+        text="Profile"
+        icon="profile"
+        onClick={() => goto('/user/profile')}
+      />
+      <Menu.Item text="Login" icon="power" onClick={() => requestLogin()} />
+    </Menu>
+  );
 
   return (
-    <AppBarDiv>
-      <StyledIconButton icon={StyledIcon} onClick={toggleDrawer} />
-      <Heading>Coder Daily</Heading>
-      <LinkContainer>{loginLink}</LinkContainer>
-    </AppBarDiv>
+    <StyledAppBar>
+      <Navbar>
+        <Navbar.Group align={Alignment.LEFT}>
+          <Navbar.Heading>
+            <Button
+              className="bp3-minimal"
+              onClick={() => goto('/')}
+              text="Budget"
+            />
+          </Navbar.Heading>
+        </Navbar.Group>
+        <Navbar.Group align={Alignment.RIGHT}>
+          <Popover content={userMenu} position={Position.BOTTOM}>
+            <Button className="bp3-minimal" icon="user" />
+          </Popover>
+          <Button className="bp3-minimal" icon="notifications" />
+          <Button className="bp3-minimal" icon="menu" onClick={toggleDrawer} />
+        </Navbar.Group>
+      </Navbar>
+    </StyledAppBar>
   );
 }
 
 AppBar.propTypes = {
   email: PropTypes.string,
   toggleDrawer: PropTypes.func.isRequired,
+  requestLogin: PropTypes.func.isRequired,
+  requestLogout: PropTypes.func.isRequired,
+  routerPush: PropTypes.func.isRequired,
 };
 
 export default AppBar;
